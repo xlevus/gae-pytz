@@ -28,8 +28,6 @@ import logging
 import zipfile
 from cStringIO import StringIO
 
-import OLSON_VERSION
-
 zoneinfo = None
 zoneinfo_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'zoneinfo.zip'))
 
@@ -49,6 +47,7 @@ class TimezoneLoader(object):
     def open_resource(self, name):
         """Opens a resource from the zoneinfo subdir for reading."""
         from django.core.cache import cache
+        from pytz import OLSON_VERSION
 
         name_parts = name.lstrip('/').split('/')
         if os.path.pardir in name_parts:
