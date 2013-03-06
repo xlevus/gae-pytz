@@ -46,6 +46,8 @@ class TimezoneLoader(object):
 
     def open_resource(self, name):
         """Opens a resource from the zoneinfo subdir for reading."""
+        # Import nested here so we can run setup.py without Django.
+        from django.core.cache import cache
         from pytz import OLSON_VERSION
 
         name_parts = name.lstrip('/').split('/')
@@ -74,17 +76,3 @@ class TimezoneLoader(object):
                 self.available[name] = False
 
         return self.available[name]
-
-
-def get_cache():
-    """Returns a cache instance.
-
-    The cache object must support set() and add() methods. This will try Django's
-    cache backend first, falling back to App Engine's memcache.
-    """
-    try:
-        from django.core.cache import cache
-    except ImportError:
-        from google.appengine.api import memcache as cache
-
-    return cache
