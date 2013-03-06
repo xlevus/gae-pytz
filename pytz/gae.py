@@ -55,7 +55,6 @@ class TimezoneLoader(object):
             raise ValueError('Bad path segment: %r' % os.path.pardir)
 
         cache_key = 'pytz.zoneinfo.%s.%s' % (OLSON_VERSION, name)
-        cache = get_cache()
         zonedata = cache.get(cache_key)
         if zonedata is None:
             zonedata = get_zoneinfo().read('zoneinfo/' + '/'.join(name_parts))
