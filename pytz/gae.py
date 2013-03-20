@@ -20,7 +20,7 @@
         hundreds of files that we know aren't there.
 
     pytz caches loaded zoneinfos, and this module will additionally cache them
-    in memcache to avoid unzipping constantly. The cache key includes the
+    in Django's cache to avoid unzipping constantly. The cache key includes the
     OLSON_VERSION so it is invalidated when pytz is updated.
 """
 import os
@@ -46,6 +46,7 @@ class TimezoneLoader(object):
 
     def open_resource(self, name):
         """Opens a resource from the zoneinfo subdir for reading."""
+        # Import nested here so we can run setup.py without Django.
         from django.core.cache import cache
         from pytz import OLSON_VERSION
 
@@ -57,7 +58,7 @@ class TimezoneLoader(object):
         zonedata = cache.get(cache_key)
         if zonedata is None:
             zonedata = get_zoneinfo().read('zoneinfo/' + '/'.join(name_parts))
-            cache.set(cache_key, zonedata)
+            cache.add(cache_key, zonedata)
             logging.info('Added timezone to memcache: %s' % cache_key)
         else:
             logging.info('Loaded timezone from memcache: %s' % cache_key)
