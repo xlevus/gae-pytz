@@ -43,8 +43,8 @@ class TimezoneLoader(object):
 
     def open_resource(self, name):
         """Opens a resource from the zoneinfo subdir for reading."""
-        # Import nested here so we can run setup.py without Django.
-        from django.core.cache import cache
+        # Import nested here so we can run setup.py without GAE.
+        from google.appengine.api import memcache
         from pytz import OLSON_VERSION
 
         name_parts = name.lstrip('/').split('/')
@@ -52,10 +52,10 @@ class TimezoneLoader(object):
             raise ValueError('Bad path segment: %r' % os.path.pardir)
 
         cache_key = 'pytz.zoneinfo.%s.%s' % (OLSON_VERSION, name)
-        zonedata = cache.get(cache_key)
+        zonedata = memcache.get(cache_key)
         if zonedata is None:
             zonedata = get_zoneinfo().read('zoneinfo/' + '/'.join(name_parts))
-            cache.add(cache_key, zonedata)
+            memcache.add(cache_key, zonedata)
             logging.info('Added timezone to memcache: %s' % cache_key)
         else:
             logging.info('Loaded timezone from memcache: %s' % cache_key)
