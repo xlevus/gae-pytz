@@ -2,10 +2,7 @@
     A pytz version that runs smoothly on Google App Engine.
 
     Based on http://appengine-cookbook.appspot.com/recipe/caching-pytz-helper/
-
-    To use, add pytz to your path normally, but import it from the gae module:
-
-        from pytz.gae import pytz
+    but modified so that it can be imported normally with import pytz.
 
     Applied patches:
 
