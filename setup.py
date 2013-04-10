@@ -3,9 +3,9 @@ import pytz
 
 
 setup(
-    name='django-nonrel-pytz',
+    name='gae-pytz',
     version=pytz.__version__,
-    url='https://github.com/potatolondon/django-nonrel-pytz/',
+    url='https://github.com/potatolondon/gae-pytz/',
     license='MIT',
     author='Stuart Bishop',
     author_email='stuart@stuartbishop.net',
