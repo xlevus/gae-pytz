@@ -17,7 +17,7 @@
         hundreds of files that we know aren't there.
 
     pytz caches loaded zoneinfos, and this module will additionally cache them
-    in Appe Engines's cache to avoid unzipping constantly. The cache key
+    in App Engines's cache to avoid unzipping constantly. The cache key
     includes the OLSON_VERSION so it is invalidated when pytz is updated.
 """
 import os
