@@ -25,6 +25,8 @@ import logging
 import zipfile
 from cStringIO import StringIO
 
+
+log = logging.getLogger(__name__)
 zoneinfo = None
 zoneinfo_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'zoneinfo.zip'))
 
@@ -56,9 +58,9 @@ class TimezoneLoader(object):
         if zonedata is None:
             zonedata = get_zoneinfo().read('zoneinfo/' + '/'.join(name_parts))
             memcache.add(cache_key, zonedata)
-            logging.info('Added timezone to memcache: %s' % cache_key)
+            log.info('Added timezone to memcache: %s' % cache_key)
         else:
-            logging.info('Loaded timezone from memcache: %s' % cache_key)
+            log.info('Loaded timezone from memcache: %s' % cache_key)
 
         return StringIO(zonedata)
 
