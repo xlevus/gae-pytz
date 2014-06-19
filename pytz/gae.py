@@ -22,21 +22,27 @@
 """
 import os
 import logging
-import zipfile
+#import zipfile
 from cStringIO import StringIO
+
+from _compat import extract_nested_zipfile
 
 
 log = logging.getLogger(__name__)
 zoneinfo = None
-zoneinfo_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'zoneinfo.zip'))
+zoneinfo_path = os.path.abspath(os.path.join(
+    os.path.dirname(__file__),
+    'zoneinfo.zip'))
+
 
 def get_zoneinfo():
     """Cache the opened zipfile in the module."""
     global zoneinfo
     if zoneinfo is None:
-        zoneinfo = zipfile.ZipFile(zoneinfo_path)
+        zoneinfo = extract_nested_zipfile(zoneinfo_path)
 
     return zoneinfo
+
 
 class TimezoneLoader(object):
     """A loader that that reads timezones using ZipFile."""
